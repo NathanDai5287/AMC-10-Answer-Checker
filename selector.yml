@@ -1,0 +1,5 @@
+Answers:
+    css: null
+    xpath: //li
+    multiple: true
+    type: Text
