@@ -39,7 +39,7 @@ def summarize(score: int, cutoff: int, correct: dict, incorrect: dict, skipped: 
 
 	return summary
 
-def grade(answers: list, key: list) -> Tuple[dict]:
+def grade(answers: list, key: list) -> Tuple[int, dict, dict, dict]:
 	"""calculates the score on the test
 
 	Args:
@@ -87,8 +87,8 @@ def cutoff(year: int, test: str) -> int:
 
 	return float(score)
 
-with open('answers.txt') as f:
-	answers = [i.strip().lower() for i in f.readlines()]
+# with open('answers.txt') as f:
+# 	answers = [i.strip().lower() for i in f.readlines()]
 
 with open('info.json') as f:
 	data = json.load(f)
@@ -100,6 +100,7 @@ page = requests.get(link).text
 extractor = Extractor.from_yaml_file('selector.yml')
 key = [i.lower() for i in extractor.extract(page)['Answers']]
 
-with open('score.txt', 'w') as f:
-	score, correct, incorrect, skipped = grade(answers, key)
-	f.write(summarize(score, cutoff(year, test), correct, incorrect, skipped))
+if __name__ == "__main__":
+	with open('score.txt', 'w') as f:
+		score, correct, incorrect, skipped = grade(answers, key)
+		f.write(summarize(score, cutoff(year, test), correct, incorrect, skipped))
